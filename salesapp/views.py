@@ -13,7 +13,7 @@ def sales_record_list(request):
     itemtype_search = request.GET.get('itemtype')
     region_filter = request.GET.get('region')
     country_filter = request.GET.get('country')
-    sales_records = Salesrecord.objects.all()
+    sales_records = Salesrecord.objects.all().order_by('orderid')
 
     # Apply search query if exists
     if query:
