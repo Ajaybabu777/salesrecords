@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Sales Record</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        form {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .btn-back {
+            background-color: #6c757d;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: white;
+            display: inline-block;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Add Sales Record</h1>
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                    <div style="color: red;">{{ field.errors }}</div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn">Save</button>
+        <a href="{% url 'sales_record_list' %}" class="btn-back">Back to List</a>
+    </form>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const unitssoldInput = document.querySelector('[name="unitssold"]');
+        const unitpriceInput = document.querySelector('[name="unitprice"]');
+        const unitcostInput = document.querySelector('[name="unitcost"]');
+        const totalrevenueInput = document.querySelector('[name="totalrevenue"]');
+        const totalcostInput = document.querySelector('[name="totalcost"]');
+        const totalprofitInput = document.querySelector('[name="totalprofit"]');
+
+        function calculate() {
+            const unitssold = parseFloat(unitssoldInput.value) || 0;
+            const unitprice = parseFloat(unitpriceInput.value) || 0;
+            const unitcost = parseFloat(unitcostInput.value) || 0;
+
+            const totalrevenue = unitssold * unitprice;
+            const totalcost = unitssold * unitcost;
+            const totalprofit = totalrevenue - totalcost;
+
+            totalrevenueInput.value = totalrevenue.toFixed(2);
+            totalcostInput.value = totalcost.toFixed(2);
+            totalprofitInput.value = totalprofit.toFixed(2);
+        }
+
+        unitssoldInput.addEventListener('input', calculate);
+        unitpriceInput.addEventListener('input', calculate);
+        unitcostInput.addEventListener('input', calculate);
+    });
+    </script>
+</body>
+</html>

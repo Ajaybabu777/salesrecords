@@ -1,0 +1,70 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Sales Record</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        form {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .btn-back {
+            background-color: #6c757d;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: white;
+            display: inline-block;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Edit Sales Record</h1>
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                    <div style="color: red;">{{ field.errors }}</div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn">Save</button>
+        <a href="{% url 'sales_record_list' %}" class="btn-back">Back to List</a>
+    </form>
+</body>
+</html>
